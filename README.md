@@ -28,6 +28,7 @@ After that, the new metrics can be combined with other image rbd metrics, exampl
     ceph_rbd_image_labels{image="exampleIMG", instance="192.168.122.145:8089", job="custom_labels", namespace="testNameSpace", pool="exampleRBD", pv="testPV", pvc="testPVC"}=1.0
 
 And the combination will be:
+
     ceph_rbd_read_bytes * on(image, pool) group_left(namespace, pvc, pv) ceph_rbd_image_labels
     {image="exampleIMG", instance="192.168.122.7:9283", job="ceph", namespace="testNameSpace", pool="exampleRBD", pv="testPV", pvc="testPVC"}=123
 
