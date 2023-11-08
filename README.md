@@ -21,3 +21,13 @@ Then the exporter will generate these metrics:
     # TYPE ceph_rbd_image_labels_collect_seconds gauge
     ceph_rbd_image_labels_collect_seconds 0.5086851119995117
 
+After that, the new metrics can be combined with other image rbd metrics, example:
+
+    ceph_rbd_read_bytes{image="exampleIMG", instance="192.168.122.7:9283", job="ceph", pool="exampleRBD"} = 123
+    and
+    ceph_rbd_image_labels{image="exampleIMG", instance="192.168.122.145:8089", job="custom_labels", namespace="testNameSpace", pool="exampleRBD", pv="testPV", pvc="testPVC"}=1.0
+
+And the combination will be:
+    ceph_rbd_read_bytes * on(image, pool) group_left(namespace, pvc, pv) ceph_rbd_image_labels
+    {image="exampleIMG", instance="192.168.122.7:9283", job="ceph", namespace="testNameSpace", pool="exampleRBD", pv="testPV", pvc="testPVC"}=123
+
